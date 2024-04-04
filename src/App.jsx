@@ -1,9 +1,10 @@
-import React, {useState, useMemo, useEffect} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import CanvasProvider from "./ContextProviders/CanvasProvider";
 import CanvasRenderer from "./components/Canvas/CanvasRenderer";
 import Header from "./components/Header";
 import Toolbar from "./components/Toolbar";
 import InspectPanel from "./components/InspectPanel";
+import axios from "./Axios";
 
 function App() {
     const [userId, setUserId] = useState(null);
@@ -30,7 +31,15 @@ function App() {
     }, []);
 
 
+    useEffect(() => {
+        if (fileId) {
+            (async () => {
+                const response = await axios.get(`/a_contentasset/${fileId}`);
+                console.log("Response Data is: ", response)
+            })();
 
+        }
+    }, [fileId])
 
 
     return (
