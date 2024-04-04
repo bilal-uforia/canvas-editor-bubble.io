@@ -9,6 +9,7 @@ import axios from "./Axios";
 function App() {
     const [userId, setUserId] = useState(null);
     const [fileId, setFileId] = useState(null);
+    const [fileData, setFileData] = useState(null);
 
     useMemo(() => {
         window.addEventListener('message', function (event) {
@@ -35,7 +36,12 @@ function App() {
         if (fileId) {
             (async () => {
                 const response = await axios.get(`/a_contentasset/${fileId}`);
-                console.log("Response Data is: ", response)
+                console.log("File Data is: ", response?.data?.response);
+                setFileData(response?.data?.response);
+                console.log("Page List is : ", response?.data?.response?.a2_page_list_list_custom_scene);
+
+                //showing A_FW Page
+
             })();
 
         }
