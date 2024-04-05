@@ -17,6 +17,7 @@ function App() {
     const [fileId, setFileId] = useState(null);
     const [fileData, setFileData] = useState(null);
     const [pageList, setPageList] = useState([]);
+    const [jobsUsed, setJobsUsed] = useState([]);
 
     useMemo(() => {
         window.addEventListener('message', function (event) {
@@ -46,20 +47,29 @@ function App() {
                 console.log("File Data is: ", response?.data?.response);
                 setFileData(response?.data?.response);
                 const A_Page_List = response?.data?.response?.a2_page_list_list_custom_scene;
+                const A_Jobs_Used = response?.data?.response?.a_jobs_used_list_custom_jobs;
                 const AwsUploads = response?.data?.response?.uploaded_content_list_custom_aws_urls;
                 console.log("Page List is : ", A_Page_List);
 
                 //showing A_FW Pages
-                A_Page_List?.map(async (page_id, index) => {
+                A_Page_List && A_Page_List.map(async (page_id, index) => {
                     const response = await axios.get(`/a_page(fw)/${page_id}`);
                     console.log(`Page ${index + 1} Data is: `, response?.data?.response);
-                    pageList.push(response?.data?.response);
                     setPageList([...pageList,response?.data?.response])
                     console.log("I-Canvas JSON is: ", response?.data?.response?.i_canvas_json_text);
                 });
 
+
+                //showing A_Jobs_Used
+                A_Jobs_Used && A_Jobs_Used.map(async (job_id, index) => {
+                    const response = await axios.get(`/job/${job_id}`);
+                    pageList.push(response?.data?.response);
+                    setJobsUsed([...jobsUsed,response?.data?.response]);
+                });
+
+
                 //showing User Aws Uploads
-                AwsUploads?.map(async (upload_id, index) => {
+                AwsUploads && AwsUploads.map(async (upload_id, index) => {
                     const response = await axios.get(`/userawsuploads/${upload_id}`);
                     console.log(`Url ${index + 1} is: `, response?.data?.response?.url_to_use_text);
                 });
