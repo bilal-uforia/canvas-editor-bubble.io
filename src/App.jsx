@@ -22,6 +22,7 @@ function App() {
     const [uploadUrls, setUploadUrls] = useState([]);
     const [brand, setBrand] = useState(null);
     const [brandLogos, setBrandLogos] = useState([]);
+    const [mediaUrls, setMediaUrls] = useState([]);
 
     useMemo(() => {
         window.addEventListener('message', function (event) {
@@ -115,6 +116,22 @@ function App() {
 
                 setBrandLogos(logoUrls);
 
+
+                // showing brand logos
+                const mediaUrls = [];
+                await new Promise((res, rej) => {
+                    brand?.media_list_custom_creative_data && brand?.media_list_custom_creative_data.map(async (creative_id, index) => {
+                            const creativeResponse = await axios.get(`/creativedata/${creative_id}`);
+                            const url = creativeResponse.data.response?.aws_url_text;
+                            mediaUrls.push(url);
+                            brand?.media_list_custom_creative_data.length - 1 == index && res(mediaUrls);
+                        }
+                    );
+                });
+
+                setMediaUrls(mediaUrls);
+
+
             })();
 
         }
@@ -128,8 +145,8 @@ function App() {
                 <ShowData title="Jobs used: " data={jobsUsed}/>
                 <ShowData title="User AWS Uploads: " data={uploadUrls}/>
                 <ShowData title="Brand is: " data={brand}/>
-                <ShowData title="Brand logos  are: "  data={brandLogos}/>
-
+                <ShowData title="Brand logos  are: " data={brandLogos}/>
+                <ShowData title="Creative Data is : " data={mediaUrls}/>
 
                 {/*<Header/>*/}
                 {/*<CanvasRenderer/>*/}
