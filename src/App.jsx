@@ -8,7 +8,7 @@ const ShowData = ({title, data}) => {
     // console.log("Data to show: ", data_to_show);
     return <div className="mb-3">
         <h2>{title}</h2>
-        {(data && data?.length>0) && <div>{ JSON.stringify(data)}</div>
+        {(data || data?.length>0) && <div>{ JSON.stringify(data)}</div>
         }
     </div>
 }
