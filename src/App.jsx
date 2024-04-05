@@ -20,6 +20,7 @@ function App() {
     const [pageList, setPageList] = useState([]);
     const [jobsUsed, setJobsUsed] = useState([]);
     const [uploadUrls, setUploadUrls] = useState([]);
+    const [brand, setBrand] = useState(null);
 
     useMemo(() => {
         window.addEventListener('message', function (event) {
@@ -51,6 +52,8 @@ function App() {
                 const A_Page_List = response?.data?.response?.a2_page_list_list_custom_scene;
                 const A_Jobs_Used = response?.data?.response?.a_jobs_used_list_custom_jobs;
                 const AwsUploads = response?.data?.response?.uploaded_content_list_custom_aws_urls;
+                const brand = response?.data?.response?.uploaded_content_list_custom_aws_urls;
+                setBrand(brand);
                 console.log("Page List is : ", A_Page_List);
 
                 //showing A_FW Pages
@@ -61,7 +64,7 @@ function App() {
                         console.log(`Page ${index + 1} Data is: `, response?.data?.response);
                         pageList.push(response?.data?.response);
                         console.log("I-Canvas JSON is: ", response?.data?.response?.i_canvas_json_text);
-                        A_Page_List.length-1 == index && res(pageList)
+                        A_Page_List.length - 1 == index && res(pageList)
                     });
 
                 });
@@ -69,18 +72,39 @@ function App() {
 
 
                 //showing A_Jobs_Used
-                A_Jobs_Used && A_Jobs_Used.map(async (job_id, index) => {
-                    const response = await axios.get(`/job/${job_id}`);
-                    setJobsUsed([...jobsUsed, response?.data?.response]);
+                const jobsUsed = [];
+                await new Promise((res, rej) => {
+                    A_Jobs_Used && A_Jobs_Used.map(async (job_id, index) => {
+                        const response = await axios.get(`/job/${job_id}`);
+                        jobsUsed.push(response?.data?.response);
+                    });
                 });
-
+                setJobsUsed(jobsUsed);
 
                 //showing User Aws Uploads
+                const uploadUrls = [];
+                await new Promise((res, rej) => {
                 AwsUploads && AwsUploads.map(async (upload_id, index) => {
                     const response = await axios.get(`/userawsuploads/${upload_id}`);
                     console.log(`Url ${index + 1} is: `, response?.data?.response?.url_to_use_text);
-                    setUploadUrls([...uploadUrls, response?.data?.response?.url_to_use_text]);
+                    uploadUrls.push(response?.data?.response?.url_to_use_text);
                 });
+                });
+
+                setUploadUrls(uploadUrls);
+
+
+                //showing brands
+                // const brands = [];
+                // await new Promise((res, rej) => {
+                //     AwsUploads && AwsUploads.map(async (upload_id, index) => {
+                //         const response = await axios.get(`/userawsuploads/${upload_id}`);
+                //         console.log(`Url ${index + 1} is: `, response?.data?.response?.url_to_use_text);
+                //         brands.push(response?.data?.response?.url_to_use_text);
+                //     });
+                // });
+                //
+                // setBrands(brands);
 
             })();
 
@@ -94,6 +118,7 @@ function App() {
                 <ShowData title="Page (FW) List | A_Page (FW) | I-Canvas JSON" data={pageList}/>
                 <ShowData title="Jobs used: " data={jobsUsed}/>
                 <ShowData title="User AWS Uploads: " data={uploadUrls}/>
+                <ShowData title="Brand is: " data={brand}/>
 
 
                 {/*<Header/>*/}
