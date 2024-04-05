@@ -21,6 +21,7 @@ function App() {
     const [jobsUsed, setJobsUsed] = useState([]);
     const [uploadUrls, setUploadUrls] = useState([]);
     const [brand, setBrand] = useState(null);
+    const [brandLogos, setBrandLogos] = useState([]);
 
     useMemo(() => {
         window.addEventListener('message', function (event) {
@@ -78,6 +79,7 @@ function App() {
                     A_Jobs_Used && A_Jobs_Used.map(async (job_id, index) => {
                         const response = await axios.get(`/job/${job_id}`);
                         jobsUsed.push(response?.data?.response);
+                        A_Jobs_Used.length - 1 == index && res(jobsUsed)
                     });
                 });
                 setJobsUsed(jobsUsed);
@@ -85,27 +87,33 @@ function App() {
                 //showing User Aws Uploads
                 const uploadUrls = [];
                 await new Promise((res, rej) => {
-                AwsUploads && AwsUploads.map(async (upload_id, index) => {
-                    const response = await axios.get(`/userawsuploads/${upload_id}`);
-                    console.log(`Url ${index + 1} is: `, response?.data?.response?.url_to_use_text);
-                    uploadUrls.push(response?.data?.response?.url_to_use_text);
-                });
+                    AwsUploads && AwsUploads.map(async (upload_id, index) => {
+                        const response = await axios.get(`/userawsuploads/${upload_id}`);
+                        console.log(`Url ${index + 1} is: `, response?.data?.response?.url_to_use_text);
+                        uploadUrls.push(response?.data?.response?.url_to_use_text);
+                        AwsUploads.length - 1 == index && res(uploadUrls)
+                    });
                 });
 
                 setUploadUrls(uploadUrls);
 
 
-                //showing brands
-                // const brands = [];
-                // await new Promise((res, rej) => {
-                //     AwsUploads && AwsUploads.map(async (upload_id, index) => {
-                //         const response = await axios.get(`/userawsuploads/${upload_id}`);
-                //         console.log(`Url ${index + 1} is: `, response?.data?.response?.url_to_use_text);
-                //         brands.push(response?.data?.response?.url_to_use_text);
-                //     });
-                // });
-                //
-                // setBrands(brands);
+                // showing brand logos
+                const logoUrls = [];
+                await new Promise((res, rej) => {
+                    brand?.logos_list_custom_brand_logos && brand?.logos_list_custom_brand_logos.map(async (logo_id, index) => {
+                            const logoResponse = await axios.get(`/brandlogo/${logo_id}`);
+                            const urlId = logoResponse.data.response?.logo_asset_custom_aws_urls;
+                            if (urlId) {
+                                const urlResponse = await axios.get(`/userawsuploads/${logoUrls}`);
+                                logoUrls.push(urlResponse?.data?.response?.url_to_use_text);
+                            }
+                            brand?.logos_list_custom_brand_logos.length - 1 == index && res(logoUrls);
+                        }
+                    );
+                });
+
+                setBrandLogos(logoUrls);
 
             })();
 
@@ -120,6 +128,7 @@ function App() {
                 <ShowData title="Jobs used: " data={jobsUsed}/>
                 <ShowData title="User AWS Uploads: " data={uploadUrls}/>
                 <ShowData title="Brand is: " data={brand}/>
+                <ShowData title="Brand logos  are: "  data={brandLogos}/>
 
 
                 {/*<Header/>*/}
