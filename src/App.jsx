@@ -61,7 +61,7 @@ function App() {
 
 
     const ShowData = ({title, data}) => {
-        const data_to_show =  data?.isArray() ? data.map((item)=><code>{data}</code>): <code>{data}</code>
+        const data_to_show =  Array.isArray(data) ? data.map((item)=><code>{item}</code>): <code>{data}</code>
 
         return <div className="mb-3">
             <h2>{title}</h2>
