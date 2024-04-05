@@ -70,11 +70,11 @@ function App() {
     return (
         <CanvasProvider>
             <div>
-                <ShowData title="Page (FW) List: " data={pageList}/>
-                {/*<Header/>*/}
-                {/*<CanvasRenderer/>*/}
-                {/*<Toolbar/>*/}
-                {/*<InspectPanel/>*/}
+                {/*<ShowData title="Page (FW) List: " data={pageList}/>*/}
+                <Header/>
+                <CanvasRenderer/>
+                <Toolbar/>
+                <InspectPanel/>
             </div>
         </CanvasProvider>
     )
