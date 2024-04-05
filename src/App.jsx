@@ -36,7 +36,7 @@ function App() {
                 console.log("File Data is: ", response?.data?.response);
                 setFileData(response?.data?.response);
                 const A_Page_List = response?.data?.response?.a2_page_list_list_custom_scene;
-                setPageList(A_Page_List);
+                // setPageList(A_Page_List);
                 const AwsUploads = response?.data?.response?.uploaded_content_list_custom_aws_urls;
                 console.log("Page List is : ", A_Page_List);
 
