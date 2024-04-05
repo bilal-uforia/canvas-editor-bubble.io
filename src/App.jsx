@@ -4,7 +4,7 @@ import axios from "./Axios";
 
 
 const ShowData = ({title, data}) => {
-    const data_to_show =  Array.isArray(data) ? data.map((item)=><code>{item}</code>): <code>{data}</code>
+    const data_to_show =  Array.isArray(data) ? data.map((item)=><code>{item}</code>).join(''): <code>{data}</code>
     console.log("Data to show: ", data_to_show);
     return <div className="mb-3">
         <h2>{title}</h2>
