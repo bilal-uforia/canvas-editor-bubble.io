@@ -1,15 +1,12 @@
 import React, {useEffect, useMemo, useState} from "react";
 import CanvasProvider from "./ContextProviders/CanvasProvider";
-import CanvasRenderer from "./components/Canvas/CanvasRenderer";
-import Header from "./components/Header";
-import Toolbar from "./components/Toolbar";
-import InspectPanel from "./components/InspectPanel";
 import axios from "./Axios";
 
 function App() {
     const [userId, setUserId] = useState(null);
     const [fileId, setFileId] = useState(null);
     const [fileData, setFileData] = useState(null);
+    const [pageList, setPageList] = useState(null);
 
     useMemo(() => {
         window.addEventListener('message', function (event) {
@@ -38,29 +35,46 @@ function App() {
                 const response = await axios.get(`/a_contentasset/${fileId}`);
                 console.log("File Data is: ", response?.data?.response);
                 setFileData(response?.data?.response);
-                const A_Page_List = response?.data?.response?.a2_page_list_list_custom_scene
+                const A_Page_List = response?.data?.response?.a2_page_list_list_custom_scene;
+                setPageList(A_Page_List);
+                const AwsUploads = response?.data?.response?.uploaded_content_list_custom_aws_urls;
                 console.log("Page List is : ", A_Page_List);
 
-                //showing A_FW Pages
-                A_Page_List.map(async(page_id,index)=>{
-                    const response = await axios.get(`/a_page(fw)/${page_id}`);
-                    console.log(`Page ${index+1} Data is: `, response?.data?.response);
-                    console.log("I-Canvas JSON is: ", response?.data?.response?.i_canvas_json_text);
-                });
-
             })();
+
+            //showing A_FW Pages
+            A_Page_List?.map(async (page_id, index) => {
+                const response = await axios.get(`/a_page(fw)/${page_id}`);
+                console.log(`Page ${index + 1} Data is: `, response?.data?.response);
+                console.log("I-Canvas JSON is: ", response?.data?.response?.i_canvas_json_text);
+            });
+
+            //showing User Aws Uploads
+            AwsUploads?.map(async (upload_id, index) => {
+                const response = await axios.get(`/userawsuploads/${upload_id}`);
+                console.log(`Url ${index + 1} is: `, response?.data?.response?.url_to_use_text);
+            });
 
         }
     }, [fileId])
 
 
+    const ShowData = ({title, data}) => {
+        return <div className="mb-3">
+            <h2>{title}</h2>
+            {data && <code>{data}</code>}
+        </div>
+    }
+
+
     return (
         <CanvasProvider>
             <div>
-                <Header/>
-                <CanvasRenderer/>
-                <Toolbar/>
-                <InspectPanel/>
+                <ShowData title="Page (FW) List: " data={pageList}/>
+                {/*<Header/>*/}
+                {/*<CanvasRenderer/>*/}
+                {/*<Toolbar/>*/}
+                {/*<InspectPanel/>*/}
             </div>
         </CanvasProvider>
     )
