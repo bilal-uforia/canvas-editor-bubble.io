@@ -47,6 +47,7 @@ function App() {
                     pageList.push(response?.data?.response);
                     console.log("I-Canvas JSON is: ", response?.data?.response?.i_canvas_json_text);
                 });
+                console.log("Page List is: ", pageList);
                 setPageList(pageList)
                 //showing User Aws Uploads
                 AwsUploads?.map(async (upload_id, index) => {
