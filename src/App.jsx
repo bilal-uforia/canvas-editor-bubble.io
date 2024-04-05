@@ -89,6 +89,8 @@ function App() {
             <div>
                 <ShowData title="Page (FW) List | A_Page (FW) | I-Canvas JSON" data={pageList}/>
                 <ShowData title="Jobs used: " data={jobsUsed}/>
+                <ShowData title="User AWS Uploads: " data={uploadUrls}/>
+
 
                 {/*<Header/>*/}
                 {/*<CanvasRenderer/>*/}
