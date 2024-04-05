@@ -69,10 +69,7 @@ function App() {
 
 
                 //showing User Aws Uploads
-                [
-                    "1692041496678x898564581282283500",
-                    "1692041608512x881854315562270700"
-                ].map(async (upload_id, index) => {
+                AwsUploads && AwsUploads.map(async (upload_id, index) => {
                     const response = await axios.get(`/userawsuploads/${upload_id}`);
                     console.log(`Url ${index + 1} is: `, response?.data?.response?.url_to_use_text);
                     setUploadUrls([...uploadUrls, response?.data?.response?.url_to_use_text]);
