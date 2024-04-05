@@ -7,7 +7,7 @@ const ShowData = ({title, data}) => {
     console.log("Data is: ", data);
     return <div className="mb-3">
         <h2>{title}</h2>
-         <code>{ data? JSON.stringify(data): null}</code>
+        <code>{data ? JSON.stringify(data) : null}</code>
     </div>
 }
 
@@ -18,6 +18,7 @@ function App() {
     const [fileData, setFileData] = useState(null);
     const [pageList, setPageList] = useState([]);
     const [jobsUsed, setJobsUsed] = useState([]);
+    const [uploadUrls, setUploadUrls] = useState([]);
 
     useMemo(() => {
         window.addEventListener('message', function (event) {
@@ -55,7 +56,7 @@ function App() {
                 A_Page_List && A_Page_List.map(async (page_id, index) => {
                     const response = await axios.get(`/a_page(fw)/${page_id}`);
                     console.log(`Page ${index + 1} Data is: `, response?.data?.response);
-                    setPageList([...pageList,response?.data?.response])
+                    setPageList([...pageList, response?.data?.response])
                     console.log("I-Canvas JSON is: ", response?.data?.response?.i_canvas_json_text);
                 });
 
@@ -63,15 +64,18 @@ function App() {
                 //showing A_Jobs_Used
                 A_Jobs_Used && A_Jobs_Used.map(async (job_id, index) => {
                     const response = await axios.get(`/job/${job_id}`);
-                    pageList.push(response?.data?.response);
-                    setJobsUsed([...jobsUsed,response?.data?.response]);
+                    setJobsUsed([...jobsUsed, response?.data?.response]);
                 });
 
 
                 //showing User Aws Uploads
-                AwsUploads && AwsUploads.map(async (upload_id, index) => {
+                [
+                    "1692041496678x898564581282283500",
+                    "1692041608512x881854315562270700"
+                ].map(async (upload_id, index) => {
                     const response = await axios.get(`/userawsuploads/${upload_id}`);
                     console.log(`Url ${index + 1} is: `, response?.data?.response?.url_to_use_text);
+                    setUploadUrls([...uploadUrls, response?.data?.response?.url_to_use_text]);
                 });
 
             })();
@@ -80,11 +84,10 @@ function App() {
     }, [fileId])
 
 
-
     return (
         <CanvasProvider>
             <div>
-                <ShowData title="Page (FW) List: " data={pageList}/>
+                <ShowData title="Page (FW) List | A_Page (FW) | I-Canvas JSON" data={pageList}/>
                 <ShowData title="Jobs used: " data={jobsUsed}/>
 
                 {/*<Header/>*/}
