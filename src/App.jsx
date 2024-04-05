@@ -5,6 +5,7 @@ import axios from "./Axios";
 
 const ShowData = ({title, data}) => {
     console.log("Data is: ", data);
+    console.log(JSON.stringify(data));
     return <div className="mb-3">
         <h2>{title}</h2>
         <code>{data ? JSON.stringify(data, null, 2) : null}</code>
