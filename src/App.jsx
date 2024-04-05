@@ -4,6 +4,7 @@ import axios from "./Axios";
 
 
 const ShowData = ({title, data}) => {
+    console.log("Data is: ", data);
     return <div className="mb-3">
         <h2>{title}</h2>
         {(data || data?.length>0) && <code>{ JSON.stringify(data)}</code>
@@ -85,6 +86,8 @@ function App() {
         <CanvasProvider>
             <div>
                 <ShowData title="Page (FW) List: " data={pageList}/>
+                <ShowData title="Jobs used: " data={jobsUsed}/>
+
                 {/*<Header/>*/}
                 {/*<CanvasRenderer/>*/}
                 {/*<Toolbar/>*/}
