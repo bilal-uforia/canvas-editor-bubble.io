@@ -8,7 +8,7 @@ const ShowData = ({title, data}) => {
     console.log("Data to show: ", data_to_show);
     return <div className="mb-3">
         <h2>{title}</h2>
-        {data && data_to_show
+        {(data && data?.length>0) && data_to_show
         }
     </div>
 }
@@ -18,7 +18,7 @@ function App() {
     const [userId, setUserId] = useState(null);
     const [fileId, setFileId] = useState(null);
     const [fileData, setFileData] = useState(null);
-    const [pageList, setPageList] = useState(null);
+    const [pageList, setPageList] = useState([]);
 
     useMemo(() => {
         window.addEventListener('message', function (event) {
@@ -52,15 +52,14 @@ function App() {
                 console.log("Page List is : ", A_Page_List);
 
                 //showing A_FW Pages
-                const pageList = [];
                 A_Page_List?.map(async (page_id, index) => {
                     const response = await axios.get(`/a_page(fw)/${page_id}`);
                     console.log(`Page ${index + 1} Data is: `, response?.data?.response);
                     pageList.push(response?.data?.response);
+                    setPageList([...pageList,response?.data?.response])
                     console.log("I-Canvas JSON is: ", response?.data?.response?.i_canvas_json_text);
                 });
-                console.log("Page List is: ", pageList);
-                setPageList(pageList)
+
                 //showing User Aws Uploads
                 AwsUploads?.map(async (upload_id, index) => {
                     const response = await axios.get(`/userawsuploads/${upload_id}`);
