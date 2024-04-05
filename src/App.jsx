@@ -36,17 +36,18 @@ function App() {
                 console.log("File Data is: ", response?.data?.response);
                 setFileData(response?.data?.response);
                 const A_Page_List = response?.data?.response?.a2_page_list_list_custom_scene;
-                setPageList(A_Page_List);
                 const AwsUploads = response?.data?.response?.uploaded_content_list_custom_aws_urls;
                 console.log("Page List is : ", A_Page_List);
 
                 //showing A_FW Pages
+                const pageList = [];
                 A_Page_List?.map(async (page_id, index) => {
                     const response = await axios.get(`/a_page(fw)/${page_id}`);
                     console.log(`Page ${index + 1} Data is: `, response?.data?.response);
+                    pageList.push(response?.data?.response);
                     console.log("I-Canvas JSON is: ", response?.data?.response?.i_canvas_json_text);
                 });
-
+                setPageList(pageList)
                 //showing User Aws Uploads
                 AwsUploads?.map(async (upload_id, index) => {
                     const response = await axios.get(`/userawsuploads/${upload_id}`);
@@ -60,9 +61,12 @@ function App() {
 
 
     const ShowData = ({title, data}) => {
+        const data_to_show =  data?.isArray() ? data.map((item)=><code>{data}</code>): <code>{data}</code>
+
         return <div className="mb-3">
             <h2>{title}</h2>
-            {data && <code>{data}</code>}
+            {data && data_to_show
+            }
         </div>
     }
 
