@@ -7,8 +7,7 @@ const ShowData = ({title, data}) => {
     console.log("Data is: ", data);
     return <div className="mb-3">
         <h2>{title}</h2>
-        {(data || data?.length>0) && <code>{ JSON.stringify(data)}</code>
-        }
+         <code>{ data? JSON.stringify(data): null}</code>
     </div>
 }
 
