@@ -2,6 +2,18 @@ import React, {useEffect, useMemo, useState} from "react";
 import CanvasProvider from "./ContextProviders/CanvasProvider";
 import axios from "./Axios";
 
+
+const ShowData = ({title, data}) => {
+    const data_to_show =  Array.isArray(data) ? data.map((item)=><code>{item}</code>): <code>{data}</code>
+    console.log("Data to show: ", data_to_show);
+    return <div className="mb-3">
+        <h2>{title}</h2>
+        {data && data_to_show
+        }
+    </div>
+}
+
+
 function App() {
     const [userId, setUserId] = useState(null);
     const [fileId, setFileId] = useState(null);
@@ -60,16 +72,6 @@ function App() {
         }
     }, [fileId])
 
-
-    const ShowData = ({title, data}) => {
-        const data_to_show =  Array.isArray(data) ? data.map((item)=><code>{item}</code>): <code>{data}</code>
-console.log("Data to show: ", data_to_show);
-        return <div className="mb-3">
-            <h2>{title}</h2>
-            {data && data_to_show
-            }
-        </div>
-    }
 
 
     return (
