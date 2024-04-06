@@ -69,6 +69,9 @@ function App() {
                 console.log("Brand is: ", brand);
                 setBrand(brand);
                 console.log("Page List is : ", A_Page_List);
+                const A_JobInfo = response?.data?.response?.a_job_info_custom_jobs;
+                console.log("Job is: ", A_JobInfo);
+
 
                 //showing A_FW Pages
                 const pageList = [];
@@ -107,34 +110,14 @@ function App() {
                 }
                 setBrandLogos(logoUrls);
 
-                // brand?.logos_list_custom_brand_logos?.length > 0 && await new Promise((res, rej) => {
-                //     brand?.logos_list_custom_brand_logos && brand?.logos_list_custom_brand_logos.map(async (logo_id, index) => {
-                //             const logoResponse = await axios.get(`/brandlogo/${logo_id}`);
-                //             const urlId = logoResponse.data.response?.logo_asset_custom_aws_urls;
-                //             if (urlId) {
-                //                 const urlResponse = await axios.get(`/userawsuploads/${logoUrls}`);
-                //                 logoUrls.push(urlResponse?.data?.response?.url_to_use_text);
-                //             }
-                //             brand?.logos_list_custom_brand_logos.length - 1 == index && res(logoUrls);
-                //         }
-                //     );
-                // });
-                //
-                // setBrandLogos(logoUrls);
-
 
                 // showing brand logos
                 const mediaUrls = [];
-                brand?.media_list_custom_creative_data?.length > 0 && await new Promise((res, rej) => {
-                    brand?.media_list_custom_creative_data && brand?.media_list_custom_creative_data.map(async (creative_id, index) => {
-                            const creativeResponse = await axios.get(`/creativedata/${creative_id}`);
-                            const url = creativeResponse.data.response?.aws_url_text;
-                            mediaUrls.push(url);
-                            brand?.media_list_custom_creative_data.length - 1 == index && res(mediaUrls);
-                        }
-                    );
-                });
+                if (brand?.media_list_custom_creative_data?.length > 0) {
+                    const mediaResponses = await fetchDataFromEndpoints(brand.media_list_custom_creative_data, '/creativedata');
+                    mediaUrls.push(...mediaResponses.map(response => response.aws_url_text));
 
+                }
                 setMediaUrls(mediaUrls);
 
                 //Getting workspace
