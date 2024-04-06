@@ -54,6 +54,7 @@ function App() {
                 const A_Page_List = response?.data?.response?.a2_page_list_list_custom_scene;
                 const A_Jobs_Used = response?.data?.response?.a_jobs_used_list_custom_jobs;
                 const AwsUploads = response?.data?.response?.uploaded_content_list_custom_aws_urls;
+                console.log("AwsUploads: ", AwsUploads);
                 const brand = response?.data?.response?.uploaded_content_list_custom_aws_urls;
                 console.log("Brand is: ", brand);
                 setBrand(brand);
@@ -130,6 +131,10 @@ function App() {
                 });
 
                 setMediaUrls(mediaUrls);
+
+                //Getting workspace
+
+                //Getting Job
 
 
             })();
