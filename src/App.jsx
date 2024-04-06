@@ -85,8 +85,8 @@ function App() {
                     });
                 });
                 setJobsUsed(jobsUsed);
-
-                Array.from(AwsUploads)?.map((id)=>{
+console.log("Uploads: ", AwsUploads);
+                AwsUploads?.map((id)=>{
                     console.log("Aws id is: ", id);
                 })
 
