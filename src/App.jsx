@@ -78,43 +78,23 @@ function App() {
                     pageList.push(...pageResponses);
                 }
                 setPageList(pageList);
-                // A_Page_List?.length>0 && await new Promise((res, rej) => {
-                //     A_Page_List && A_Page_List.map(async (page_id, index) => {
-                //         const response = await axios.get(`/a_page(fw)/${page_id}`);
-                //         console.log(`Page ${index + 1} Data is: `, response?.data?.response);
-                //         pageList.push(response?.data?.response);
-                //         console.log("I-Canvas JSON is: ", response?.data?.response?.i_canvas_json_text);
-                //         A_Page_List.length - 1 == index && res(pageList)
-                //     });
-                //
-                // });
-                // setPageList(pageList);
 
 
                 //showing A_Jobs_Used
                 const jobsUsed = [];
-                A_Jobs_Used?.length>0 &&  await new Promise((res, rej) => {
-                    A_Jobs_Used && A_Jobs_Used.map(async (job_id, index) => {
-                        const response = await axios.get(`/job/${job_id}`);
-                        jobsUsed.push(response?.data?.response);
-                        A_Jobs_Used.length - 1 == index && res(jobsUsed)
-                    });
-                });
+                if (A_Jobs_Used?.length > 0) {
+                    const jobResponses = await fetchDataFromEndpoints(A_Jobs_Used, '/job');
+                    jobsUsed.push(...jobResponses);
+                }
                 setJobsUsed(jobsUsed);
 
                 //showing User Aws Uploads
                 const uploadUrls = [];
-                AwsUploads?.length>0 && await new Promise((res, rej) => {
-                    AwsUploads && AwsUploads.forEach(async (upload_id, index) => {
-                        const response = await axios.get(`/userawsuploads/${upload_id}`);
-                        console.log(`Url ${index + 1} is: `, response?.data?.response?.url_to_use_text);
-                        uploadUrls.push(response?.data?.response?.url_to_use_text);
-                        AwsUploads.length - 1 == index && res(uploadUrls)
-                    });
-                });
-
+                if (AwsUploads?.length > 0) {
+                    const uploadResponses = await fetchDataFromEndpoints(AwsUploads, '/userawsuploads');
+                    uploadUrls.push(...uploadResponses.map(response => response.url_to_use_text));
+                }
                 setUploadUrls(uploadUrls);
-
 
                 // showing brand logos
                 const logoUrls = [];
