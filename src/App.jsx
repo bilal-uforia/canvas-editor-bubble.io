@@ -74,7 +74,7 @@ function App() {
                 console.log("AwsUploads: ", AwsUploads);
                 // const brand = response?.data?.response?.i_brand_custom_brands;
                 let brand = null;
-                if(response?.data?.response?.i_brand_custom_brands){
+                if(true){
                     const brandResponse = await axios.get(`/brand/1698518828462x636314130084790300`);
                     brand = brandResponse?.data?.response;
                 }
