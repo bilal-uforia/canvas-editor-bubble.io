@@ -71,9 +71,6 @@ function App() {
                 console.log("Brand is: ", brand);
                 setBrand(brand);
                 console.log("Page List is : ", A_Page_List);
-                const A_JobInfo = response?.data?.response?.a_job_info_custom_jobs;
-                setJob(A_JobInfo);
-                console.log("Job is: ", A_JobInfo);
 
 
                 //showing A_FW Pages
@@ -124,6 +121,18 @@ function App() {
                 setMediaUrls(mediaUrls);
 
                 //Getting workspace
+
+                //Getting Job
+                let A_JobInfo = null;
+                if(response?.data?.response?.a_job_info_custom_jobs){
+                    A_JobInfo = await axios.get(`/job/${response?.data?.response?.a_job_info_custom_jobs}`);
+                    setJob(A_JobInfo);
+console.log("inside job");
+
+                }
+
+console.log("outside job");
+
 
                 //Getting Job A_Object FWS List
                 if (A_JobInfo?.a_object_list_list_custom_ad_segment?.length > 0) {
