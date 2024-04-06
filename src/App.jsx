@@ -127,11 +127,7 @@ function App() {
                 if(response?.data?.response?.a_job_info_custom_jobs){
                     A_JobInfo = await axios.get(`/job/${response?.data?.response?.a_job_info_custom_jobs}`);
                     setJob(A_JobInfo);
-console.log("inside job");
-
                 }
-
-console.log("outside job");
 
 
                 //Getting Job A_Object FWS List
