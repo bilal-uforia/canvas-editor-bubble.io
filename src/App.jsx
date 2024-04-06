@@ -24,7 +24,8 @@ function App() {
     const [brandLogos, setBrandLogos] = useState([]);
     const [mediaUrls, setMediaUrls] = useState([]);
     const [job, setJob] = useState(null);
-
+    const [jobA_FwsList, setJobA_FwsList] = useState([]);
+    const [jobInputList, setJobInputList] = useState([]);
 
     const fetchDataFromEndpoints = async (ids, endpoint) => {
         const promises = ids.map(async (id) => {
@@ -125,6 +126,17 @@ function App() {
                 //Getting workspace
 
                 //Getting Job A_Object FWS List
+                if (A_JobInfo?.a_object_list_list_custom_ad_segment?.length > 0) {
+                    const objectListResponses = await fetchDataFromEndpoints(
+                        A_JobInfo?.a_object_list_list_custom_ad_segment, "/a_object(fws)")
+                    setJobA_FwsList(objectListResponses);
+                }
+
+                if (A_JobInfo?.input_fields_list_custom_prompt?.length > 0) {
+                    const inputtListResponses = await fetchDataFromEndpoints(
+                        A_JobInfo?.input_fields_list_custom_prompt, "/job_input")
+                    setJobInputList(inputtListResponses);
+                }
 
 
             })();
@@ -142,7 +154,9 @@ function App() {
                 <ShowData title="Brand is: " data={brand}/>
                 <ShowData title="Brand logos  are: " data={brandLogos}/>
                 <ShowData title="Creative Data is : " data={mediaUrls}/>
-                <ShowData title="job is : " data={job}/>
+                <ShowData title="Job is : " data={job}/>
+                <ShowData title="Job A_Object FWS List is : " data={jobA_FwsList}/>
+                <ShowData title="Job A_Job Input Field List is : " data={jobInputList}/>
 
                 {/*<Header/>*/}
                 {/*<CanvasRenderer/>*/}
