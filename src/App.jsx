@@ -29,6 +29,7 @@ function App() {
     const [jobObjectInstruction, setJobObjectInstruction] = useState(null);
     const [jobInputs, setJobInputs] = useState([]);
     const [user, setUser] = useState(null);
+    const [workSpace, setWorkSpace] = useState(null);
 
     const fetchDataFromEndpoints = async (ids, endpoint) => {
         const promises = ids.map(async (id) => {
@@ -164,13 +165,22 @@ function App() {
                 }
                 setJobInputs(inputJobs);
 
-                let  user_info = null;
                 //Getting user info
+                let  user_info = null;
                 if (userId) {
                     const userResponse = await axios.get(`/user/${userId}`);
                     user_info = userResponse?.data?.response;
-                    setJob(user_info);
+                    setUser(user_info);
                 }
+
+                let currentWorkSpace = null;
+                //Getting user current workspace
+                if(user_info?.workspace_current_custom_team){
+                    const workSpaceResponse = await axios.get(`/workspace/${user_info?.workspace_current_custom_team}`);
+                    currentWorkSpace = workSpaceResponse?.data?.response;
+                    setUser(currentWorkSpace);
+                }
+
 
 
             })();
@@ -194,6 +204,7 @@ function App() {
                 <ShowData title="A_Object Instruction : " data={jobObjectInstruction}/>
                 <ShowData title="Job Input : " data={jobInputs}/>
                 <ShowData title="User is : " data={user}/>
+                <ShowData title="Current WorkSpace  is : " data={workSpace}/>
 
                 {/*<Header/>*/}
                 {/*<CanvasRenderer/>*/}
