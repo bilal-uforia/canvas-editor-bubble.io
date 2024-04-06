@@ -178,7 +178,7 @@ function App() {
                 if(user_info?.workspace_current_custom_team){
                     const workSpaceResponse = await axios.get(`/workspace/${user_info?.workspace_current_custom_team}`);
                     currentWorkSpace = workSpaceResponse?.data?.response;
-                    setUser(currentWorkSpace);
+                    setWorkSpace(currentWorkSpace);
                 }
 
 
