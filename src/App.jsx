@@ -124,7 +124,7 @@ function App() {
 
                 //Getting workspace
 
-                //Getting Job
+                //Getting Job A_Object FWS List
 
 
             })();
@@ -142,7 +142,7 @@ function App() {
                 <ShowData title="Brand is: " data={brand}/>
                 <ShowData title="Brand logos  are: " data={brandLogos}/>
                 <ShowData title="Creative Data is : " data={mediaUrls}/>
-                <ShowData title="Creative Data is : " data={job}/>
+                <ShowData title="job is : " data={job}/>
 
                 {/*<Header/>*/}
                 {/*<CanvasRenderer/>*/}
