@@ -28,6 +28,7 @@ function App() {
     const [jobInputList, setJobInputList] = useState([]);
     const [jobObjectInstruction, setJobObjectInstruction] = useState(null);
     const [jobInputs, setJobInputs] = useState([]);
+    const [user, setUser] = useState(null);
 
     const fetchDataFromEndpoints = async (ids, endpoint) => {
         const promises = ids.map(async (id) => {
@@ -60,7 +61,7 @@ function App() {
 
 
     useEffect(() => {
-        if (fileId) {
+        if (fileId && userId) {
             (async () => {
                 const response = await axios.get(`/a_contentasset/${fileId}`);
                 console.log("File Data is: ", response?.data?.response);
@@ -155,13 +156,21 @@ function App() {
                     setJobObjectInstruction(jobObjectInstruction)
                 }
 
-                //showing A_Jobs_Used
+                //Getting jobs inputs
                 const inputJobs = [];
                 if (jobInputs?.length > 0) {
                     const jobInputResponses = await fetchDataFromEndpoints(jobInputs, '/job_input');
                     inputJobs.push(...jobInputResponses);
                 }
                 setJobInputs(inputJobs);
+
+                //Getting user info
+                if (userId) {
+                    const userResponse = await axios.get(`/user/${userId}`);
+                    A_JobInfo = userResponse?.data?.response;
+                    setJob(A_JobInfo);
+                }
+
 
             })();
 
@@ -183,6 +192,8 @@ function App() {
                 <ShowData title="Job A_Job Input Field List is : " data={jobInputList}/>
                 <ShowData title="A_Object Instruction : " data={jobObjectInstruction}/>
                 <ShowData title="Job Input : " data={jobInputs}/>
+                <ShowData title="User is : " data={user}/>
+
                 {/*<Header/>*/}
                 {/*<CanvasRenderer/>*/}
                 {/*<Toolbar/>*/}
