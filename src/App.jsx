@@ -77,7 +77,7 @@ function App() {
 
                 //showing A_Jobs_Used
                 const jobsUsed = [];
-                jobsUsed &&  await new Promise((res, rej) => {
+                A_Jobs_Used &&  await new Promise((res, rej) => {
                     A_Jobs_Used && A_Jobs_Used.map(async (job_id, index) => {
                         const response = await axios.get(`/job/${job_id}`);
                         jobsUsed.push(response?.data?.response);
