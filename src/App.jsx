@@ -164,10 +164,11 @@ function App() {
                 }
                 setJobInputs(inputJobs);
 
+                const  user_info = null;
                 //Getting user info
                 if (userId) {
                     const userResponse = await axios.get(`/user/${userId}`);
-                    const  user_info = userResponse?.data?.response;
+                    user_info = userResponse?.data?.response;
                     setJob(user_info);
                 }
 
