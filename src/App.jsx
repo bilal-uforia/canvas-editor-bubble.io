@@ -30,6 +30,7 @@ function App() {
     const [jobInputs, setJobInputs] = useState([]);
     const [user, setUser] = useState(null);
     const [workSpace, setWorkSpace] = useState(null);
+    const [workSpaceBrands, setWorkSpaceBrands] = useState([]);
 
     const fetchDataFromEndpoints = async (ids, endpoint) => {
         const promises = ids.map(async (id) => {
@@ -173,15 +174,20 @@ function App() {
                     setUser(user_info);
                 }
 
-                let currentWorkSpace = null;
                 //Getting user current workspace
+                let currentWorkSpace = null;
                 if(user_info?.workspace_current_custom_team){
                     const workSpaceResponse = await axios.get(`/workspace/${user_info?.workspace_current_custom_team}`);
                     currentWorkSpace = workSpaceResponse?.data?.response;
                     setWorkSpace(currentWorkSpace);
                 }
 
-
+                //Getting user current workspace brands
+                if (currentWorkSpace?.brands_list_custom_brands?.length > 0) {
+                    const brandsResponse = await fetchDataFromEndpoints(
+                        currentWorkSpace?.brands_list_custom_brands, "/brand")
+                    setWorkSpaceBrands(brandsResponse);
+                }
 
             })();
 
@@ -205,6 +211,7 @@ function App() {
                 <ShowData title="Job Input : " data={jobInputs}/>
                 <ShowData title="User is : " data={user}/>
                 <ShowData title="WorkSpace  is : " data={workSpace}/>
+                <ShowData title="WorkSpace Brands are : " data={workSpaceBrands}/>
 
                 {/*<Header/>*/}
                 {/*<CanvasRenderer/>*/}
