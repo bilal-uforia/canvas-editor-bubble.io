@@ -87,7 +87,7 @@ function App() {
                 setJobsUsed(jobsUsed);
 
                 AwsUploads?.map((id)=>{
-                    console.log(id);
+                    console.log("Aws id is: ", id);
                 })
 
                 //showing User Aws Uploads
