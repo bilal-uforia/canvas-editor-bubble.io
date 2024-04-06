@@ -26,6 +26,8 @@ function App() {
     const [job, setJob] = useState(null);
     const [jobA_FwsList, setJobA_FwsList] = useState([]);
     const [jobInputList, setJobInputList] = useState([]);
+    const [jobObjectInstruction, setJobObjectInstruction] = useState(null);
+    const [jobInputs, setJobInputs] = useState([]);
 
     const fetchDataFromEndpoints = async (ids, endpoint) => {
         const promises = ids.map(async (id) => {
@@ -71,7 +73,8 @@ function App() {
                 console.log("Brand is: ", brand);
                 setBrand(brand);
                 console.log("Page List is : ", A_Page_List);
-
+                const jobInputs = response?.data?.response?.input_ref_info_list_custom_prompt;
+               console.log("Job inputs: ", jobInputs);
 
                 //showing A_FW Pages
                 const pageList = [];
@@ -124,7 +127,7 @@ function App() {
 
                 //Getting Job
                 let A_JobInfo = null;
-                if(response?.data?.response?.a_job_info_custom_jobs){
+                if (response?.data?.response?.a_job_info_custom_jobs) {
                     A_JobInfo = await axios.get(`/job/${response?.data?.response?.a_job_info_custom_jobs}`);
                     setJob(A_JobInfo);
                 }
@@ -137,12 +140,27 @@ function App() {
                     setJobA_FwsList(objectListResponses);
                 }
 
+                //Getting Job Input Fields List
                 if (A_JobInfo?.input_fields_list_custom_prompt?.length > 0) {
                     const inputtListResponses = await fetchDataFromEndpoints(
                         A_JobInfo?.input_fields_list_custom_prompt, "/job_input")
                     setJobInputList(inputtListResponses);
                 }
 
+                //Getting Job A_Object Instruction
+                if (A_JobInfo?.instructions_custom_object_instruction) {
+                    const jobObjectInstruction = await axios.get(
+                        `/a_objectinstruction/${A_JobInfo?.instructions_custom_object_instruction}`)
+                    setJobObjectInstruction(jobObjectInstruction)
+                }
+
+                //showing A_Jobs_Used
+                const inputJobs = [];
+                if (jobInputs?.length > 0) {
+                    const jobInputResponses = await fetchDataFromEndpoints(jobInputs, '/job_input');
+                    inputJobs.push(...jobInputResponses);
+                }
+                setJobInputs(inputJobs);
 
             })();
 
@@ -162,7 +180,8 @@ function App() {
                 <ShowData title="Job is : " data={job}/>
                 <ShowData title="Job A_Object FWS List is : " data={jobA_FwsList}/>
                 <ShowData title="Job A_Job Input Field List is : " data={jobInputList}/>
-
+                <ShowData title="A_Object Instruction : " data={jobObjectInstruction}/>
+                <ShowData title="Job Input : " data={jobInputs}/>
                 {/*<Header/>*/}
                 {/*<CanvasRenderer/>*/}
                 {/*<Toolbar/>*/}
