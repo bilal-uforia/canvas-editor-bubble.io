@@ -75,7 +75,7 @@ function App() {
                 // const brand = response?.data?.response?.i_brand_custom_brands;
                 let brand = null;
                 if(true){
-                    const brandResponse = await axios.get(`/brand/1698518828462x636314130084790300`);
+                    const brandResponse = await axios.get(`/brand/1705619161850x581865328163946500`);
                     brand = brandResponse?.data?.response;
                 }
                 // const brand = 1698518828462x636314130084790300;
