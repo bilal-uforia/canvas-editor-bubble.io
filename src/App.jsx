@@ -89,7 +89,7 @@ function App() {
                 //showing User Aws Uploads
                 const uploadUrls = [];
                 await new Promise((res, rej) => {
-                    AwsUploads && AwsUploads.forEach(async (upload_id, index) => {
+                    AwsUploads && Array.from(AwsUploads).forEach(async (upload_id, index) => {
                         const response = await axios.get(`/userawsuploads/${upload_id}`);
                         console.log(`Url ${index + 1} is: `, response?.data?.response?.url_to_use_text);
                         uploadUrls.push(response?.data?.response?.url_to_use_text);
