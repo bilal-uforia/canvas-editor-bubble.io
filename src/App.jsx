@@ -62,7 +62,7 @@ function App() {
 
                 //showing A_FW Pages
                 const pageList = [];
-                A_Page_List && await new Promise((res, rej) => {
+                A_Page_List?.length>0 && await new Promise((res, rej) => {
                     A_Page_List && A_Page_List.map(async (page_id, index) => {
                         const response = await axios.get(`/a_page(fw)/${page_id}`);
                         console.log(`Page ${index + 1} Data is: `, response?.data?.response);
@@ -77,7 +77,7 @@ function App() {
 
                 //showing A_Jobs_Used
                 const jobsUsed = [];
-                A_Jobs_Used &&  await new Promise((res, rej) => {
+                A_Jobs_Used?.length>0 &&  await new Promise((res, rej) => {
                     A_Jobs_Used && A_Jobs_Used.map(async (job_id, index) => {
                         const response = await axios.get(`/job/${job_id}`);
                         jobsUsed.push(response?.data?.response);
@@ -85,15 +85,11 @@ function App() {
                     });
                 });
                 setJobsUsed(jobsUsed);
-console.log("Uploads: ", AwsUploads);
-                AwsUploads?.map((id)=>{
-                    console.log("Aws id is: ", id);
-                })
 
                 //showing User Aws Uploads
                 const uploadUrls = [];
-                await new Promise((res, rej) => {
-                    AwsUploads && Array.from(AwsUploads).forEach(async (upload_id, index) => {
+                AwsUploads?.length>0 && await new Promise((res, rej) => {
+                    AwsUploads && AwsUploads.forEach(async (upload_id, index) => {
                         const response = await axios.get(`/userawsuploads/${upload_id}`);
                         console.log(`Url ${index + 1} is: `, response?.data?.response?.url_to_use_text);
                         uploadUrls.push(response?.data?.response?.url_to_use_text);
@@ -106,7 +102,7 @@ console.log("Uploads: ", AwsUploads);
 
                 // showing brand logos
                 const logoUrls = [];
-                await new Promise((res, rej) => {
+                brand?.logos_list_custom_brand_logos?.length>0 && await new Promise((res, rej) => {
                     brand?.logos_list_custom_brand_logos && brand?.logos_list_custom_brand_logos.map(async (logo_id, index) => {
                             const logoResponse = await axios.get(`/brandlogo/${logo_id}`);
                             const urlId = logoResponse.data.response?.logo_asset_custom_aws_urls;
@@ -124,7 +120,7 @@ console.log("Uploads: ", AwsUploads);
 
                 // showing brand logos
                 const mediaUrls = [];
-                await new Promise((res, rej) => {
+                brand?.media_list_custom_creative_data?.length>0 && await new Promise((res, rej) => {
                     brand?.media_list_custom_creative_data && brand?.media_list_custom_creative_data.map(async (creative_id, index) => {
                             const creativeResponse = await axios.get(`/creativedata/${creative_id}`);
                             const url = creativeResponse.data.response?.aws_url_text;
