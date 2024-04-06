@@ -204,7 +204,7 @@ function App() {
                 <ShowData title="A_Object Instruction : " data={jobObjectInstruction}/>
                 <ShowData title="Job Input : " data={jobInputs}/>
                 <ShowData title="User is : " data={user}/>
-                <ShowData title="Current WorkSpace  is : " data={workSpace}/>
+                <ShowData title="WorkSpace  is : " data={workSpace}/>
 
                 {/*<Header/>*/}
                 {/*<CanvasRenderer/>*/}
