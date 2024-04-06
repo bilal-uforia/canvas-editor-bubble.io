@@ -34,7 +34,6 @@ function App() {
     };
 
 
-
     useMemo(() => {
         window.addEventListener('message', function (event) {
             if (event.origin !== "https://hookbook.io") {
@@ -98,25 +97,35 @@ function App() {
 
                 // showing brand logos
                 const logoUrls = [];
-                brand?.logos_list_custom_brand_logos?.length>0 && await new Promise((res, rej) => {
-                    brand?.logos_list_custom_brand_logos && brand?.logos_list_custom_brand_logos.map(async (logo_id, index) => {
-                            const logoResponse = await axios.get(`/brandlogo/${logo_id}`);
-                            const urlId = logoResponse.data.response?.logo_asset_custom_aws_urls;
-                            if (urlId) {
-                                const urlResponse = await axios.get(`/userawsuploads/${logoUrls}`);
-                                logoUrls.push(urlResponse?.data?.response?.url_to_use_text);
-                            }
-                            brand?.logos_list_custom_brand_logos.length - 1 == index && res(logoUrls);
-                        }
-                    );
-                });
-
+                if (brand?.logos_list_custom_brand_logos?.length > 0) {
+                    const logoResponses = await fetchDataFromEndpoints(brand.logos_list_custom_brand_logos, '/brandlogo');
+                    if (logoResponses?.length > 0) {
+                        const logoAssetIds = logoResponses.map(response => response.logo_asset_custom_aws_urls);
+                        const urlResponses = await fetchDataFromEndpoints(logoAssetIds, '/userawsuploads');
+                        logoUrls.push(...urlResponses.map(response => response.url_to_use_text));
+                    }
+                }
                 setBrandLogos(logoUrls);
+
+                // brand?.logos_list_custom_brand_logos?.length > 0 && await new Promise((res, rej) => {
+                //     brand?.logos_list_custom_brand_logos && brand?.logos_list_custom_brand_logos.map(async (logo_id, index) => {
+                //             const logoResponse = await axios.get(`/brandlogo/${logo_id}`);
+                //             const urlId = logoResponse.data.response?.logo_asset_custom_aws_urls;
+                //             if (urlId) {
+                //                 const urlResponse = await axios.get(`/userawsuploads/${logoUrls}`);
+                //                 logoUrls.push(urlResponse?.data?.response?.url_to_use_text);
+                //             }
+                //             brand?.logos_list_custom_brand_logos.length - 1 == index && res(logoUrls);
+                //         }
+                //     );
+                // });
+                //
+                // setBrandLogos(logoUrls);
 
 
                 // showing brand logos
                 const mediaUrls = [];
-                brand?.media_list_custom_creative_data?.length>0 && await new Promise((res, rej) => {
+                brand?.media_list_custom_creative_data?.length > 0 && await new Promise((res, rej) => {
                     brand?.media_list_custom_creative_data && brand?.media_list_custom_creative_data.map(async (creative_id, index) => {
                             const creativeResponse = await axios.get(`/creativedata/${creative_id}`);
                             const url = creativeResponse.data.response?.aws_url_text;
