@@ -23,6 +23,7 @@ function App() {
     const [brand, setBrand] = useState(null);
     const [brandLogos, setBrandLogos] = useState([]);
     const [mediaUrls, setMediaUrls] = useState([]);
+    const [job, setJob] = useState(null);
 
 
     const fetchDataFromEndpoints = async (ids, endpoint) => {
@@ -70,6 +71,7 @@ function App() {
                 setBrand(brand);
                 console.log("Page List is : ", A_Page_List);
                 const A_JobInfo = response?.data?.response?.a_job_info_custom_jobs;
+                setJob(A_JobInfo);
                 console.log("Job is: ", A_JobInfo);
 
 
@@ -140,6 +142,7 @@ function App() {
                 <ShowData title="Brand is: " data={brand}/>
                 <ShowData title="Brand logos  are: " data={brandLogos}/>
                 <ShowData title="Creative Data is : " data={mediaUrls}/>
+                <ShowData title="Creative Data is : " data={job}/>
 
                 {/*<Header/>*/}
                 {/*<CanvasRenderer/>*/}
