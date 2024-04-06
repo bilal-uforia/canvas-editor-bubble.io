@@ -61,30 +61,30 @@ function App() {
                 console.log("Page List is : ", A_Page_List);
 
                 //showing A_FW Pages
-                const pageList = [];
-                await new Promise((res, rej) => {
-                    A_Page_List && A_Page_List.map(async (page_id, index) => {
-                        const response = await axios.get(`/a_page(fw)/${page_id}`);
-                        console.log(`Page ${index + 1} Data is: `, response?.data?.response);
-                        pageList.push(response?.data?.response);
-                        console.log("I-Canvas JSON is: ", response?.data?.response?.i_canvas_json_text);
-                        A_Page_List.length - 1 == index && res(pageList)
-                    });
-
-                });
-                setPageList(pageList);
+                // const pageList = [];
+                // await new Promise((res, rej) => {
+                //     A_Page_List && A_Page_List.map(async (page_id, index) => {
+                //         const response = await axios.get(`/a_page(fw)/${page_id}`);
+                //         console.log(`Page ${index + 1} Data is: `, response?.data?.response);
+                //         pageList.push(response?.data?.response);
+                //         console.log("I-Canvas JSON is: ", response?.data?.response?.i_canvas_json_text);
+                //         A_Page_List.length - 1 == index && res(pageList)
+                //     });
+                //
+                // });
+                // setPageList(pageList);
 
 
                 //showing A_Jobs_Used
-                const jobsUsed = [];
-                await new Promise((res, rej) => {
-                    A_Jobs_Used && A_Jobs_Used.map(async (job_id, index) => {
-                        const response = await axios.get(`/job/${job_id}`);
-                        jobsUsed.push(response?.data?.response);
-                        A_Jobs_Used.length - 1 == index && res(jobsUsed)
-                    });
-                });
-                setJobsUsed(jobsUsed);
+                // const jobsUsed = [];
+                // await new Promise((res, rej) => {
+                //     A_Jobs_Used && A_Jobs_Used.map(async (job_id, index) => {
+                //         const response = await axios.get(`/job/${job_id}`);
+                //         jobsUsed.push(response?.data?.response);
+                //         A_Jobs_Used.length - 1 == index && res(jobsUsed)
+                //     });
+                // });
+                // setJobsUsed(jobsUsed);
 console.log("Uploads: ", AwsUploads);
                 AwsUploads?.map((id)=>{
                     console.log("Aws id is: ", id);
