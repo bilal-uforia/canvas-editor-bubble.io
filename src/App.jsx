@@ -167,8 +167,8 @@ function App() {
                 //Getting user info
                 if (userId) {
                     const userResponse = await axios.get(`/user/${userId}`);
-                    A_JobInfo = userResponse?.data?.response;
-                    setJob(A_JobInfo);
+                    const  user_info = userResponse?.data?.response;
+                    setJob(user_info);
                 }
 
 
