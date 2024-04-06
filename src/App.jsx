@@ -72,13 +72,13 @@ function App() {
                 const A_Jobs_Used = response?.data?.response?.a_jobs_used_list_custom_jobs;
                 const AwsUploads = response?.data?.response?.uploaded_content_list_custom_aws_urls;
                 console.log("AwsUploads: ", AwsUploads);
-                // const brand = response?.data?.response?.i_brand_custom_brands;
+
                 let brand = null;
-                if(true){
-                    const brandResponse = await axios.get(`/brand/1705619161850x581865328163946500`);
+                if(response?.data?.response?.i_brand_custom_brands){
+                    const brandResponse = await axios.get(`/brand/${response?.data?.response?.i_brand_custom_brands}`);
                     brand = brandResponse?.data?.response;
                 }
-                // const brand = 1698518828462x636314130084790300;
+
                 console.log("Brand is: ", brand);
                 setBrand(brand);
 
