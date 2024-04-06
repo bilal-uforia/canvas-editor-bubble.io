@@ -128,7 +128,8 @@ function App() {
                 //Getting Job
                 let A_JobInfo = null;
                 if (response?.data?.response?.a_job_info_custom_jobs) {
-                    A_JobInfo = await axios.get(`/job/${response?.data?.response?.a_job_info_custom_jobs}`);
+                    const jobResponse = await axios.get(`/job/${response?.data?.response?.a_job_info_custom_jobs}`);
+                    A_JobInfo = jobResponse?.data?.response;
                     setJob(A_JobInfo);
                 }
 
