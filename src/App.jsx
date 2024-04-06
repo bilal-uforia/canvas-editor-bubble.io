@@ -86,7 +86,7 @@ function App() {
                 });
                 setJobsUsed(jobsUsed);
 
-                AwsUploads?.map((id)=>{
+                Array.from(AwsUploads)?.map((id)=>{
                     console.log("Aws id is: ", id);
                 })
 
